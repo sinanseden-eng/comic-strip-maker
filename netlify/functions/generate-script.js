@@ -5,13 +5,13 @@ export const handler = async (event) => {
     }
 
     try {
-        // Netlify securely injects process.env variables
         const API_KEY = process.env.GEMINI_API_KEY; 
         const TEXT_MODEL_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
         
-        // The frontend sends the payload
+        // Read the request sent from the frontend
         const payload = JSON.parse(event.body);
 
+        // Forward the request to Google
         const response = await fetch(TEXT_MODEL_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -20,11 +20,12 @@ export const handler = async (event) => {
 
         const data = await response.json();
         
+        // Pass the response and the actual HTTP status code back to the frontend
         return {
-            statusCode: 200,
+            statusCode: response.status,
             body: JSON.stringify(data)
         };
     } catch (error) {
-        return { statusCode: 500, body: JSON.stringify({ error: 'Failed to generate script' }) };
+        return { statusCode: 500, body: JSON.stringify({ error: 'Internal Server Error' }) };
     }
 };
