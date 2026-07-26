@@ -8,7 +8,7 @@ export const handler = async (event) => {
         const API_KEY = process.env.GEMINI_API_KEY;
         
         // Use the correct generateContent endpoint that matches the frontend payload structure
-        const IMAGE_MODEL_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image-preview:generateContent?key=${API_KEY}`;
+        const IMAGE_MODEL_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent?key=${API_KEY}`;
         
         // Read the request sent from the frontend
         const payload = JSON.parse(event.body);
