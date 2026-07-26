@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comic Canvas</title>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Bangers&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'DM Sans', sans-serif; }
+        .comic-title { font-family: 'Bangers', cursive; letter-spacing: 0.05em; }
+        
+        .halftone-bg {
+            background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
+            background-size: 8px 8px;
+        }
+
+        .panel-border {
+            border: 3px solid #1a1a2e;
+            box-shadow: 4px 4px 0px #1a1a2e;
+        }
+
+        .btn-comic {
+            border: 3px solid #1a1a2e;
+            box-shadow: 3px 3px 0px #1a1a2e;
+            transition: all 0.1s ease;
+        }
+        .btn-comic:active {
+            box-shadow: 1px 1px 0px #1a1a2e;
+            transform: translate(2px, 2px);
+        }
+
+        .loader {
+            border: 4px solid #fde047;
+            border-top: 4px solid #e11d48;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e11d48; border-radius: 20px; }
+
+        .speech-bubble {
+            position: relative;
+            background: #fff;
+            border: 2px solid #1a1a2e;
+            border-radius: 1rem;
+            padding: 1rem;
+        }
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 24px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #1a1a2e;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .float-anim { animation: float 3s ease-in-out infinite; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col halftone-bg">
+    <header class="relative overflow-hidden border-b-4 border-gray-900">
+        <div class="absolute inset-0 bg-gradient-to-r from-yellow-300 via-rose-400 to-cyan-400 opacity-90"></div>
+        <div class="relative max-w-7xl mx-auto px-4 py-5 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div>
+                <h1 class="comic-title text-4xl sm:text-5xl text-gray-900 drop-shadow-sm">Comic Canvas</h1>
+                <p class="text-gray-900/80 mt-1 text-sm font-medium">Write your dialogue. Generate your art. Add your speech bubbles!</p>
+            </div>
+            <span class="hidden sm:inline-block bg-gray-900 text-yellow-300 px-4 py-1.5 rounded-full text-sm font-bold border-2 border-yellow-300">ESL Prep Class Tool</span>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- LEFT: Input -->
+        <div class="lg:col-span-4 space-y-6">
+            <div class="panel-border bg-white rounded-xl p-6">
+                <h2 class="comic-title text-2xl text-gray-900 mb-4">1. Setup Your Scene</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label for="scenario" class="block text-sm font-bold text-gray-700 mb-1">Scenario / Topic</label>
+                        <select id="scenario" class="w-full rounded-lg border-2 border-gray-900 p-2.5 text-sm bg-yellow-50 outline-none focus:ring-2 focus:ring-rose-400">
+                            <option value="The Negotiation (Weekend Trip)">The Negotiation (Weekend Trip)</option>
+                            <option value="Diplomatic Standoff (MUN Style)">Diplomatic Standoff (MUN Style)</option>
+                            <option value="The Misunderstanding (Past Tenses)">The Misunderstanding (Past Tenses)</option>
+                            <option value="Custom Topic">Custom Topic</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="style" class="block text-sm font-bold text-gray-700 mb-1">Visual Art Style</label>
+                        <select id="style" class="w-full rounded-lg border-2 border-gray-900 p-2.5 text-sm bg-cyan-50 outline-none focus:ring-2 focus:ring-rose-400">
+                            <option value="Vibrant watercolor painting, expressive brushstrokes">Vibrant Watercolor</option>
+                            <option value="Classic Japanese manga style, black and white ink, dynamic lines">Classic Manga</option>
+                            <option value="Neon cyberpunk, futuristic, glowing lights, highly detailed digital art">Neon Cyberpunk</option>
+                            <option value="Vintage 1960s western comic book style, halftone dots, bold colors">Vintage Comic</option>
+                            <option value="Cute 3D animation style, soft lighting, Pixar inspired">3D Animation</option>
+                        </select>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-end mb-1">
+                            <label for="dialogue" class="block text-sm font-bold text-gray-700">Your Rough Dialogue (6 Panels max)</label>
+                            <button id="load-example" class="text-xs text-rose-600 hover:text-rose-800 font-bold underline">Load Example</button>
+                        </div>
+                        <textarea id="dialogue" rows="9" class="w-full rounded-lg border-2 border-gray-900 p-3 text-sm bg-white outline-none focus:ring-2 focus:ring-rose-400" placeholder="Panel 1: [Where are they?]&#10;Person A: ...&#10;&#10;Panel 2:&#10;Person B: ..."></textarea>
+                    </div>
+                    <button id="generate-btn" class="w-full btn-comic bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-4 rounded-xl flex justify-center items-center gap-2">
+                        <span>Generate Comic Assets</span>
+                        <i data-lucide="zap" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <div id="error-banner" class="hidden mt-4 bg-red-100 text-red-800 p-3 rounded-lg text-sm border-2 border-red-300 font-medium">
+                    <span id="error-message"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: Output -->
+        <div class="lg:col-span-8 flex flex-col space-y-6">
+            
+            <!-- Loading -->
+            <div id="loading-state" class="hidden bg-white panel-border rounded-xl p-12 flex-col items-center justify-center text-center h-full min-h-[500px]">
+                <div class="loader mb-6"></div>
+                <h3 class="text-xl font-bold text-gray-900 comic-title mb-2">AI is drawing...</h3>
+                <p id="loading-text" class="text-gray-600 text-sm max-w-md"></p>
+            </div>
+            
+            <!-- Empty -->
+            <div id="empty-state" class="bg-white panel-border rounded-xl p-12 flex flex-col items-center justify-center text-center h-full min-h-[500px]">
+                <div class="float-anim mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <h3 class="comic-title text-2xl text-gray-800">Your Comic Will Appear Here</h3>
+                <p class="text-gray-500 text-sm mt-2">Fill out the form on the left to get started.</p>
+            </div>
+            
+            <!-- Results -->
+            <div id="results-state" class="hidden grid grid-cols-1 xl:grid-cols-2 gap-6 h-full">
+                <div class="panel-border bg-white rounded-xl flex flex-col h-[600px]">
+                    <div class="p-4 border-b-2 border-gray-900 bg-yellow-100 rounded-t-lg flex justify-between items-center">
+                        <h2 class="comic-title text-lg text-gray-900">Refined Script</h2>
+                        <button onclick="copyScript()" class="text-xs btn-comic bg-white px-3 py-1 rounded font-bold">Copy</button>
+                    </div>
+                    <div id="script-container" class="p-5 overflow-y-auto custom-scrollbar flex-grow space-y-3"></div>
+                </div>
+                
+                <div class="panel-border bg-white rounded-xl flex flex-col h-[600px]">
+                    <div class="p-4 border-b-2 border-gray-900 bg-cyan-100 rounded-t-lg flex justify-between items-center">
+                        <h2 class="comic-title text-lg text-gray-900">Base Artwork</h2>
+                        <a id="download-btn" href="#" download="comic-page.png" class="text-xs btn-comic bg-white px-3 py-1 rounded font-bold">Download</a>
+                    </div>
+                    <div class="p-4 flex-grow flex items-center justify-center bg-gray-900 rounded-b-lg overflow-hidden relative group">
+                        <img id="comic-image" src="" alt="Generated Comic" class="max-h-full max-w-full object-contain rounded shadow-lg">
+                        <div class="absolute bottom-4 left-0 right-0 text-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <span class="bg-yellow-300 text-gray-900 text-xs py-1 px-3 rounded-full font-bold border-2 border-gray-900">Add speech bubbles in Canva! 💬</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        const API_KEY = "";
+        const TEXT_MODEL_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
+        const IMAGE_MODEL_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image-preview:generateContent?key=${API_KEY}`;
+
+        const generateBtn = document.getElementById('generate-btn');
+        const loadExampleBtn = document.getElementById('load-example');
+        const dialogueInput = document.getElementById('dialogue');
+        const scenarioSelect = document.getElementById('scenario');
+        const styleSelect = document.getElementById('style');
+        
+        const emptyState = document.getElementById('empty-state');
+        const loadingState = document.getElementById('loading-state');
+        const loadingText = document.getElementById('loading-text');
+        const resultsState = document.getElementById('results-state');
+        
+        const errorBanner = document.getElementById('error-banner');
+        const errorMessage = document.getElementById('error-message');
+        
+        const scriptContainer = document.getElementById('script-container');
+        const comicImage = document.getElementById('comic-image');
+        const downloadBtn = document.getElementById('download-btn');
+
+        const exampleDialogue = `Panel 1: (At the UN)
+A: Aurelia Island is ours!
+Panel 2:
+B: No, it's international water. We will drill for oil.
+Panel 3:
+A: You can't drill! The turtles will die.
+Panel 4:
+B: Our economy is bad. We need the money.
+Panel 5:
+A: Let's compromise. Turtles on the east, oil on the west.
+Panel 6:
+B: Okay, I agree to this diplomatic solution.`;
+
+        loadExampleBtn.addEventListener('click', () => {
+            dialogueInput.value = exampleDialogue;
+            scenarioSelect.value = "Diplomatic Standoff (MUN Style)";
+        });
+
+        const fetchWithRetry = async (url, options, maxRetries = 3) => {
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) {
+                        const errText = await response.text();
+                        if (response.status === 429) {
+                            await new Promise(res => setTimeout(res, Math.pow(2, i) * 1000 + Math.random() * 1000));
+                            continue;
+                        }
+                        throw new Error(`API Error (${response.status}): ${errText}`);
+                    }
+                    return await response.json();
+                } catch (error) {
+                    if (i === maxRetries - 1) throw error;
+                    await new Promise(res => setTimeout(res, Math.pow(2, i) * 1000 + Math.random() * 1000));
+                }
+            }
+        };
+
+        const showError = (msg) => {
+            errorBanner.classList.remove('hidden');
+            errorMessage.textContent = msg;
+            setLoading(false);
+        };
+        
+        const hideError = () => errorBanner.classList.add('hidden');
+
+        const setLoading = (isLoading, text = "") => {
+            if (isLoading) {
+                generateBtn.disabled = true;
+                generateBtn.classList.add('opacity-75');
+                emptyState.classList.add('hidden');
+                resultsState.classList.add('hidden');
+                loadingState.classList.remove('hidden');
+                loadingState.classList.add('flex');
+                loadingText.textContent = text;
+            } else {
+                generateBtn.disabled = false;
+                generateBtn.classList.remove('opacity-75');
+                loadingState.classList.add('hidden');
+                loadingState.classList.remove('flex');
+            }
+        };
+
+        const showResults = () => {
+            setLoading(false);
+            emptyState.classList.add('hidden');
+            resultsState.classList.remove('hidden');
+            resultsState.classList.add('grid');
+        };
+
+        const processTextAndGeneratePrompt = async (scenario, style, text) => {
+            const systemPrompt = `You are an expert English teacher and comic strip scripter helping 14-15 year old ESL students.
+Task 1: Correct the grammar and elevate the vocabulary of the student's dialogue based on the Scenario, but keep it punchy enough for comic speech bubbles.
+Task 2: Write a master image prompt for a 6-panel comic page.
+STRICT INSTRUCTIONS FOR IMAGE PROMPT:
+- Describe a professional comic book page layout on a single canvas, featuring a clean 2x3 grid (6 panels total).
+- Maintain character consistency across all panels.
+- CRITICAL: You must explicitly state: "No text, no words, and no speech bubbles anywhere in the image."
+- CRITICAL: The prompt MUST end with this exact style descriptor: "${style}".`;
+
+            const payload = {
+                contents: [{ parts: [{ text: `Scenario: ${scenario}\nStudent Dialogue:\n${text}` }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            refinedScript: {
+                                type: "ARRAY",
+                                items: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        panelNumber: { type: "NUMBER" },
+                                        caption: { type: "STRING" },
+                                        dialogue: { type: "ARRAY", items: { type: "STRING" } }
+                                    },
+                                    required: ["panelNumber", "caption", "dialogue"]
+                                }
+                            },
+                            imagePrompt: { type: "STRING" }
+                        },
+                        required: ["refinedScript", "imagePrompt"]
+                    }
+                }
+            };
+
+            const data = await fetchWithRetry(TEXT_MODEL_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (data.candidates && data.candidates[0].content.parts[0].text) {
+                return JSON.parse(data.candidates[0].content.parts[0].text);
+            }
+            throw new Error("Failed to generate script structure.");
+        };
+
+        const generateImage = async (imagePrompt) => {
+            const payload = {
+                contents: [{ role: 'user', parts: [{ text: imagePrompt }] }],
+                generationConfig: { responseModalities: ['IMAGE'], imageConfig: { aspectRatio: "3:4" } }
+            };
+
+            const data = await fetchWithRetry(IMAGE_MODEL_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const part = data?.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+            if (part && part.inlineData) {
+                return `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
+            }
+            throw new Error("Failed to generate image.");
+        };
+
+        const renderScript = (scriptArray) => {
+            scriptContainer.innerHTML = '';
+            scriptArray.forEach(panel => {
+                const div = document.createElement('div');
+                div.className = 'speech-bubble';
+                const dialogueHTML = panel.dialogue.map(line => {
+                    const colonIdx = line.indexOf(':');
+                    const speaker = line.substring(0, colonIdx);
+                    const words = line.substring(colonIdx + 1);
+                    return `<p class="mt-1.5 text-gray-800 text-sm"><span class="font-bold text-rose-600">${speaker}:</span>${words}</p>`;
+                }).join('');
+                
+                div.innerHTML = `
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="bg-gray-900 text-yellow-300 text-xs font-bold px-2 py-0.5 rounded">P${panel.panelNumber}</span>
+                        <span class="text-xs text-gray-500 uppercase tracking-wider font-bold">${panel.caption}</span>
+                    </div>
+                    ${dialogueHTML}
+                `;
+                scriptContainer.appendChild(div);
+            });
+        };
+
+        window.copyScript = () => {
+            const text = Array.from(scriptContainer.children).map(el => el.innerText.trim()).join('\n\n');
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.querySelector('button[onclick="copyScript()"]');
+                btn.innerText = "Copied! ✓";
+                setTimeout(() => btn.innerText = "Copy", 2000);
+            }).catch(() => {
+                // Fallback for iFrame restrictions
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    const btn = document.querySelector('button[onclick="copyScript()"]');
+                    btn.innerText = "Copied! ✓";
+                    setTimeout(() => btn.innerText = "Copy", 2000);
+                } catch (e) {}
+                document.body.removeChild(textArea);
+            });
+        };
+
+        generateBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const dialogueText = dialogueInput.value.trim();
+            if (!dialogueText) { showError("Please enter your dialogue first!"); return; }
+            hideError();
+            
+            try {
+                setLoading(true, "Step 1: Refining your script & grammar... ⚡");
+                const result = await processTextAndGeneratePrompt(scenarioSelect.value, styleSelect.value, dialogueText);
+                
+                renderScript(result.refinedScript);
+                
+                setLoading(true, "Step 2: Drawing your comic panels... 🎨 (~15s)");
+                const imageUrl = await generateImage(result.imagePrompt);
+                
+                comicImage.src = imageUrl;
+                downloadBtn.href = imageUrl;
+                
+                showResults();
+            } catch (error) {
+                console.error(error);
+                showError(error.message || "Something went wrong. Please try again.");
+                setLoading(false);
+            }
+        });
+    </script>
+</body>
+</html>
