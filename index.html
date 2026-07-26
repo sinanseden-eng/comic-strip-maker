@@ -1,13 +1,15 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comic Canvas</title>
-    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Bangers&display=swap" rel="stylesheet">
-    <style>
+ <head>
+  <script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260723-05-e9a76f4"}');</script>
+  <script src="/_sdk/e358eac22bd01364.telemetry_sdk.js" integrity="sha512-KPxp3rw4K8Nu9ceWJc3gyM7srgaZxiFWOVbyu260EYzzAqdz10mfo5xyXrCx+wEKtGo77JbtmwXvFLbwrGzwvw=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comic Canvas</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Bangers&display=swap" rel="stylesheet">
+  <style>
         body { font-family: 'DM Sans', sans-serif; }
         .comic-title { font-family: 'Bangers', cursive; letter-spacing: 0.05em; }
         
@@ -70,131 +72,94 @@
         }
         .float-anim { animation: float 3s ease-in-out infinite; }
     </style>
-</head>
-<body class="min-h-screen flex flex-col halftone-bg">
-    <header class="relative overflow-hidden border-b-4 border-gray-900">
-        <div class="absolute inset-0 bg-gradient-to-r from-yellow-300 via-rose-400 to-cyan-400 opacity-90"></div>
-        <div class="relative max-w-7xl mx-auto px-4 py-5 sm:px-6 lg:px-8 flex justify-between items-center">
-            <div>
-                <h1 class="comic-title text-4xl sm:text-5xl text-gray-900 drop-shadow-sm">Comic Canvas</h1>
-                <p class="text-gray-900/80 mt-1 text-sm font-medium">Write your dialogue. Generate your art. Add your speech bubbles!</p>
-            </div>
-            <span class="hidden sm:inline-block bg-gray-900 text-yellow-300 px-4 py-1.5 rounded-full text-sm font-bold border-2 border-yellow-300">ESL Prep Class Tool</span>
-        </div>
-    </header>
+  <script src="/_sdk/935a53bc2e11fb8d.data_sdk.js" type="text/javascript" integrity="sha512-qr2oyPnEys1WebcOABaRh6hG77r5PWpqeWW6JTKbRJqly/INsfBi31CVNlTmHqjgeLpkVmmHZJUdxSx/32tOFQ=="></script>
+  <script src="/_sdk/6030e540d4419216.resizing_sdk.js" type="text/javascript" integrity="sha512-b5KWzyoXsbWP4smq4sftIi6Kts4YVBpBsz0BwCViwbBJkK64a3/Z6ZMdWA+qnplNcXw4mhZeqvQi3mOosiRJdA=="></script>
+ </head>
+ <body data-template-id="__page-root" class="min-h-screen flex flex-col halftone-bg">
+  <header class="relative overflow-hidden border-b-4 border-gray-900">
+   <div class="absolute inset-0 bg-gradient-to-r from-yellow-300 via-rose-400 to-cyan-400 opacity-90"></div>
+   <div class="relative max-w-7xl mx-auto px-4 py-5 sm:px-6 lg:px-8 flex justify-between items-center">
+    <div>
+     <h1 data-template-id="page-title" class="canva-text comic-title text-4xl sm:text-5xl text-gray-900 drop-shadow-sm">Comic Canvas</h1>
+     <p data-template-id="page-subtitle" class="canva-text text-gray-900/80 mt-1 text-sm font-medium">Write your dialogue. Generate your art. Add your speech bubbles!</p>
+    </div><span data-template-id="header-badge" class="canva-tag hidden sm:inline-block bg-gray-900 text-yellow-300 px-4 py-1.5 rounded-full text-sm font-bold border-2 border-yellow-300">ESL Prep Class Tool</span>
+   </div>
+  </header>
+  <main class="flex-grow max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8"><!-- LEFT: Input -->
+   <div class="lg:col-span-4 space-y-6">
+    <div class="panel-border bg-white rounded-xl p-6">
+     <h2 data-template-id="setup-heading" class="canva-text comic-title text-2xl text-gray-900 mb-4">1. Setup Your Scene</h2>
+     <div class="space-y-4">
+      <div><label data-template-id="scenario-label" for="scenario" class="canva-text block text-sm font-bold text-gray-700 mb-1">Scenario / Topic</label> <select id="scenario" class="w-full rounded-lg border-2 border-gray-900 p-2.5 text-sm bg-yellow-50 outline-none focus:ring-2 focus:ring-rose-400"> <option value="The Negotiation (Weekend Trip)">The Negotiation (Weekend Trip)</option> <option value="Diplomatic Standoff (MUN Style)">Diplomatic Standoff (MUN Style)</option> <option value="The Misunderstanding (Past Tenses)">The Misunderstanding (Past Tenses)</option> <option value="Custom Topic">Custom Topic</option> </select>
+      </div>
+      <div><label data-template-id="style-label" for="style" class="canva-text block text-sm font-bold text-gray-700 mb-1">Visual Art Style</label> <select id="style" class="w-full rounded-lg border-2 border-gray-900 p-2.5 text-sm bg-cyan-50 outline-none focus:ring-2 focus:ring-rose-400"> <option value="Vibrant watercolor painting, expressive brushstrokes">Vibrant Watercolor</option> <option value="Classic Japanese manga style, black and white ink, dynamic lines">Classic Manga</option> <option value="Neon cyberpunk, futuristic, glowing lights, highly detailed digital art">Neon Cyberpunk</option> <option value="Vintage 1960s western comic book style, halftone dots, bold colors">Vintage Comic</option> <option value="Cute 3D animation style, soft lighting, Pixar inspired">3D Animation</option> </select>
+      </div>
+      <div>
+       <div class="flex justify-between items-end mb-1"><label data-template-id="dialogue-label" for="dialogue" class="canva-text block text-sm font-bold text-gray-700">Your Rough Dialogue (6 Panels max)</label> <button id="load-example" class="text-xs text-rose-600 hover:text-rose-800 font-bold underline">Load Example</button>
+       </div><textarea id="dialogue" rows="9" class="w-full rounded-lg border-2 border-gray-900 p-3 text-sm bg-white outline-none focus:ring-2 focus:ring-rose-400" placeholder="Panel 1: [Where are they?]
+Person A: ...
 
-    <main class="flex-grow max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        <!-- LEFT: Input -->
-        <div class="lg:col-span-4 space-y-6">
-            <div class="panel-border bg-white rounded-xl p-6">
-                <h2 class="comic-title text-2xl text-gray-900 mb-4">1. Setup Your Scene</h2>
-                <div class="space-y-4">
-                    <div>
-                        <label for="scenario" class="block text-sm font-bold text-gray-700 mb-1">Scenario / Topic</label>
-                        <select id="scenario" class="w-full rounded-lg border-2 border-gray-900 p-2.5 text-sm bg-yellow-50 outline-none focus:ring-2 focus:ring-rose-400">
-                            <option value="The Negotiation (Weekend Trip)">The Negotiation (Weekend Trip)</option>
-                            <option value="Diplomatic Standoff (MUN Style)">Diplomatic Standoff (MUN Style)</option>
-                            <option value="The Misunderstanding (Past Tenses)">The Misunderstanding (Past Tenses)</option>
-                            <option value="Custom Topic">Custom Topic</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="style" class="block text-sm font-bold text-gray-700 mb-1">Visual Art Style</label>
-                        <select id="style" class="w-full rounded-lg border-2 border-gray-900 p-2.5 text-sm bg-cyan-50 outline-none focus:ring-2 focus:ring-rose-400">
-                            <option value="Vibrant watercolor painting, expressive brushstrokes">Vibrant Watercolor</option>
-                            <option value="Classic Japanese manga style, black and white ink, dynamic lines">Classic Manga</option>
-                            <option value="Neon cyberpunk, futuristic, glowing lights, highly detailed digital art">Neon Cyberpunk</option>
-                            <option value="Vintage 1960s western comic book style, halftone dots, bold colors">Vintage Comic</option>
-                            <option value="Cute 3D animation style, soft lighting, Pixar inspired">3D Animation</option>
-                        </select>
-                    </div>
-                    <div>
-                        <div class="flex justify-between items-end mb-1">
-                            <label for="dialogue" class="block text-sm font-bold text-gray-700">Your Rough Dialogue (6 Panels max)</label>
-                            <button id="load-example" class="text-xs text-rose-600 hover:text-rose-800 font-bold underline">Load Example</button>
-                        </div>
-                        <textarea id="dialogue" rows="9" class="w-full rounded-lg border-2 border-gray-900 p-3 text-sm bg-white outline-none focus:ring-2 focus:ring-rose-400" placeholder="Panel 1: [Where are they?]&#10;Person A: ...&#10;&#10;Panel 2:&#10;Person B: ..."></textarea>
-                    </div>
-                    <button id="generate-btn" class="w-full btn-comic bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-4 rounded-xl flex justify-center items-center gap-2">
-                        <span>Generate Comic Assets</span>
-                        <i data-lucide="zap" class="w-5 h-5"></i>
-                    </button>
-                </div>
-                <div id="error-banner" class="hidden mt-4 bg-red-100 text-red-800 p-3 rounded-lg text-sm border-2 border-red-300 font-medium">
-                    <span id="error-message"></span>
-                </div>
-            </div>
-        </div>
-
-        <!-- RIGHT: Output -->
-        <div class="lg:col-span-8 flex flex-col space-y-6">
-            
-            <!-- Loading -->
-            <div id="loading-state" class="hidden bg-white panel-border rounded-xl p-12 flex-col items-center justify-center text-center h-full min-h-[500px]">
-                <div class="loader mb-6"></div>
-                <h3 class="text-xl font-bold text-gray-900 comic-title mb-2">AI is drawing...</h3>
-                <p id="loading-text" class="text-gray-600 text-sm max-w-md"></p>
-            </div>
-            
-            <!-- Empty -->
-            <div id="empty-state" class="bg-white panel-border rounded-xl p-12 flex flex-col items-center justify-center text-center h-full min-h-[500px]">
-                <div class="float-anim mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                </div>
-                <h3 class="comic-title text-2xl text-gray-800">Your Comic Will Appear Here</h3>
-                <p class="text-gray-500 text-sm mt-2">Fill out the form on the left to get started.</p>
-            </div>
-            
-            <!-- Results -->
-            <div id="results-state" class="hidden grid grid-cols-1 xl:grid-cols-2 gap-6 h-full">
-                <div class="panel-border bg-white rounded-xl flex flex-col h-[600px]">
-                    <div class="p-4 border-b-2 border-gray-900 bg-yellow-100 rounded-t-lg flex justify-between items-center">
-                        <h2 class="comic-title text-lg text-gray-900">Refined Script</h2>
-                        <button onclick="copyScript()" class="text-xs btn-comic bg-white px-3 py-1 rounded font-bold">Copy</button>
-                    </div>
-                    <div id="script-container" class="p-5 overflow-y-auto custom-scrollbar flex-grow space-y-3"></div>
-                </div>
-                
-                <div class="panel-border bg-white rounded-xl flex flex-col h-[600px]">
-                    <div class="p-4 border-b-2 border-gray-900 bg-cyan-100 rounded-t-lg flex justify-between items-center">
-                        <h2 class="comic-title text-lg text-gray-900">Base Artwork</h2>
-                        <a id="download-btn" href="#" download="comic-page.png" class="text-xs btn-comic bg-white px-3 py-1 rounded font-bold">Download</a>
-                    </div>
-                    <div class="p-4 flex-grow flex items-center justify-center bg-gray-900 rounded-b-lg overflow-hidden relative group">
-                        <img id="comic-image" src="" alt="Generated Comic" class="max-h-full max-w-full object-contain rounded shadow-lg">
-                        <div class="absolute bottom-4 left-0 right-0 text-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <span class="bg-yellow-300 text-gray-900 text-xs py-1 px-3 rounded-full font-bold border-2 border-gray-900">Add speech bubbles in Canva! 💬</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <script>
+Panel 2:
+Person B: ..."></textarea>
+      </div><button id="generate-btn" data-template-id="generate-button" class="canva-button w-full btn-comic bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-4 rounded-xl flex justify-center items-center gap-2"> <span class="generate-text">Generate Comic Assets</span> <i data-lucide="zap" class="w-5 h-5"></i> </button>
+     </div>
+     <div id="error-banner" class="hidden mt-4 bg-red-100 text-red-800 p-3 rounded-lg text-sm border-2 border-red-300 font-medium"><span id="error-message"></span>
+     </div>
+    </div>
+   </div><!-- RIGHT: Output -->
+   <div class="lg:col-span-8 flex flex-col space-y-6"><!-- Loading -->
+    <div id="loading-state" class="hidden bg-white panel-border rounded-xl p-12 flex-col items-center justify-center text-center h-full min-h-[500px]">
+     <div class="loader mb-6"></div>
+     <h3 class="text-xl font-bold text-gray-900 comic-title mb-2">AI is drawing...</h3>
+     <p id="loading-text" class="text-gray-600 text-sm max-w-md"></p>
+    </div><!-- Empty -->
+    <div id="empty-state" class="bg-white panel-border rounded-xl p-12 flex flex-col items-center justify-center text-center h-full min-h-[500px]">
+     <div class="float-anim mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-rose-400" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+     </div>
+     <h3 data-template-id="empty-title" class="canva-text comic-title text-2xl text-gray-800">Your Comic Will Appear Here</h3>
+     <p data-template-id="empty-subtitle" class="canva-text text-gray-500 text-sm mt-2">Fill out the form on the left to get started.</p>
+    </div><!-- Results -->
+    <div id="results-state" class="hidden grid grid-cols-1 xl:grid-cols-2 gap-6 h-full">
+     <div class="panel-border bg-white rounded-xl flex flex-col h-[600px]">
+      <div class="p-4 border-b-2 border-gray-900 bg-yellow-100 rounded-t-lg flex justify-between items-center">
+       <h2 data-template-id="script-heading" class="canva-text comic-title text-lg text-gray-900">Refined Script</h2><button onclick="copyScript()" class="text-xs btn-comic bg-white px-3 py-1 rounded font-bold">Copy</button>
+      </div>
+      <div id="script-container" class="p-5 overflow-y-auto custom-scrollbar flex-grow space-y-3"></div>
+     </div>
+     <div class="panel-border bg-white rounded-xl flex flex-col h-[600px]">
+      <div class="p-4 border-b-2 border-gray-900 bg-cyan-100 rounded-t-lg flex justify-between items-center">
+       <h2 data-template-id="artwork-heading" class="canva-text comic-title text-lg text-gray-900">Base Artwork</h2><a id="download-btn" href="#" download="comic-page.png" class="text-xs btn-comic bg-white px-3 py-1 rounded font-bold">Download</a>
+      </div>
+      <div class="p-4 flex-grow flex items-center justify-center bg-gray-900 rounded-b-lg overflow-hidden relative group"><img id="comic-image" src="" alt="Generated Comic" class="max-h-full max-w-full object-contain rounded shadow-lg">
+       <div class="absolute bottom-4 left-0 right-0 text-center opacity-0 group-hover:opacity-100 transition-opacity"><span class="bg-yellow-300 text-gray-900 text-xs py-1 px-3 rounded-full font-bold border-2 border-gray-900">Add speech bubbles in Canva! 💬</span>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </main>
+  <script src="/_sdk/c939c145c3c74230.editing_sdk.js" integrity="sha512-jh2pv/gl9Gzzn5dxfzwQO4wkqtnAQIim+LIUDYfVu2cdqPkQV2MqbjsDUW5IYbrSZFjRlOBrIWzlvWDXQYxOjg=="></script>
+  <script>
         lucide.createIcons();
 
-        const API_KEY = "";
-        const TEXT_MODEL_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
-        const IMAGE_MODEL_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image-preview:generateContent?key=${API_KEY}`;
+        // 1. CHANGED: Removing the direct Google URLs and empty API key.
+        // We now point directly to the Netlify functions you will create.
+        const TEXT_FUNCTION_URL = '/.netlify/functions/generate-script';
+        const IMAGE_FUNCTION_URL = '/.netlify/functions/generate-image';
 
         const generateBtn = document.getElementById('generate-btn');
         const loadExampleBtn = document.getElementById('load-example');
         const dialogueInput = document.getElementById('dialogue');
         const scenarioSelect = document.getElementById('scenario');
         const styleSelect = document.getElementById('style');
-        
         const emptyState = document.getElementById('empty-state');
         const loadingState = document.getElementById('loading-state');
         const loadingText = document.getElementById('loading-text');
         const resultsState = document.getElementById('results-state');
-        
         const errorBanner = document.getElementById('error-banner');
         const errorMessage = document.getElementById('error-message');
-        
         const scriptContainer = document.getElementById('script-container');
         const comicImage = document.getElementById('comic-image');
         const downloadBtn = document.getElementById('download-btn');
@@ -242,7 +207,6 @@ B: Okay, I agree to this diplomatic solution.`;
             errorMessage.textContent = msg;
             setLoading(false);
         };
-        
         const hideError = () => errorBanner.classList.add('hidden');
 
         const setLoading = (isLoading, text = "") => {
@@ -306,7 +270,8 @@ STRICT INSTRUCTIONS FOR IMAGE PROMPT:
                 }
             };
 
-            const data = await fetchWithRetry(TEXT_MODEL_URL, {
+            // 2. CHANGED: Using the Netlify function URL
+            const data = await fetchWithRetry(TEXT_FUNCTION_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -324,7 +289,8 @@ STRICT INSTRUCTIONS FOR IMAGE PROMPT:
                 generationConfig: { responseModalities: ['IMAGE'], imageConfig: { aspectRatio: "3:4" } }
             };
 
-            const data = await fetchWithRetry(IMAGE_MODEL_URL, {
+            // 3. CHANGED: Using the Netlify function URL
+            const data = await fetchWithRetry(IMAGE_FUNCTION_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -348,7 +314,6 @@ STRICT INSTRUCTIONS FOR IMAGE PROMPT:
                     const words = line.substring(colonIdx + 1);
                     return `<p class="mt-1.5 text-gray-800 text-sm"><span class="font-bold text-rose-600">${speaker}:</span>${words}</p>`;
                 }).join('');
-                
                 div.innerHTML = `
                     <div class="flex items-center gap-2 mb-1">
                         <span class="bg-gray-900 text-yellow-300 text-xs font-bold px-2 py-0.5 rounded">P${panel.panelNumber}</span>
@@ -366,20 +331,7 @@ STRICT INSTRUCTIONS FOR IMAGE PROMPT:
                 const btn = document.querySelector('button[onclick="copyScript()"]');
                 btn.innerText = "Copied! ✓";
                 setTimeout(() => btn.innerText = "Copy", 2000);
-            }).catch(() => {
-                // Fallback for iFrame restrictions
-                const textArea = document.createElement("textarea");
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    const btn = document.querySelector('button[onclick="copyScript()"]');
-                    btn.innerText = "Copied! ✓";
-                    setTimeout(() => btn.innerText = "Copy", 2000);
-                } catch (e) {}
-                document.body.removeChild(textArea);
-            });
+            }).catch(() => {});
         };
 
         generateBtn.addEventListener('click', async (e) => {
@@ -387,26 +339,20 @@ STRICT INSTRUCTIONS FOR IMAGE PROMPT:
             const dialogueText = dialogueInput.value.trim();
             if (!dialogueText) { showError("Please enter your dialogue first!"); return; }
             hideError();
-            
             try {
                 setLoading(true, "Step 1: Refining your script & grammar... ⚡");
                 const result = await processTextAndGeneratePrompt(scenarioSelect.value, styleSelect.value, dialogueText);
-                
                 renderScript(result.refinedScript);
-                
                 setLoading(true, "Step 2: Drawing your comic panels... 🎨 (~15s)");
                 const imageUrl = await generateImage(result.imagePrompt);
-                
                 comicImage.src = imageUrl;
                 downloadBtn.href = imageUrl;
-                
                 showResults();
             } catch (error) {
-                console.error(error);
                 showError(error.message || "Something went wrong. Please try again.");
                 setLoading(false);
             }
         });
     </script>
-</body>
+ </body>
 </html>
